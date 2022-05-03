@@ -27,4 +27,11 @@ urlpatterns = [
     path('admin/individual_user/<int:nid>/edit/', views.admin_individual_edit),
     path('admin/individual_user/add/', views.admin_add_individual),
     path('admin/individual_user/<int:nid>/delete/', views.admin_individual_delete),
+
+
+    path('admin/corporate_user/', views.admin_corporate),
+    path('admin/corporate_user/add/', views.admin_corporate_add),
+    path('admin/corporate_user/<int:nid>/view_all/', views.admin_corporate_view_all),
+    path('admin/corporate_user/<int:nid>/edit/', views.admin_corporate_edit),
+    path('admin/corporate_user/<int:nid>/delete/', views.admin_corporate_delete),
 ]
