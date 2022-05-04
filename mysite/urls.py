@@ -16,22 +16,32 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from app01 import views
+from app01 import views as admin_view
+from vehicle import views as car_view
 
 urlpatterns = [
-    # path('admin/', admin.site.urls),
-    path('index/', views.index),
-    path('layout/', views.layout),
-    path('admin/individual_user/', views.admin_individual),
-    path('admin/individual_user/<int:nid>/view_all/', views.admin_individual_view_all),
-    path('admin/individual_user/<int:nid>/edit/', views.admin_individual_edit),
-    path('admin/individual_user/add/', views.admin_add_individual),
-    path('admin/individual_user/<int:nid>/delete/', views.admin_individual_delete),
+    path('admin/', admin.site.urls),
+    path('index/', admin_view.index),
+    path('layout/', admin_view.layout),
 
+    # admin
+    path('user/individual_user/', admin_view.admin_individual),
+    path('user/individual_user/<int:nid>/view_all/', admin_view.admin_individual_view_all),
+    path('user/individual_user/<int:nid>/edit/', admin_view.admin_individual_edit),
+    path('user/individual_user/add/', admin_view.admin_add_individual),
+    path('user/individual_user/<int:nid>/delete/', admin_view.admin_individual_delete),
+  
+    # corp user
+    path('user/corporate_user/', admin_view.admin_corporate),
+    path('user/corporate_user/add/', admin_view.admin_corporate_add),
+    path('user/corporate_user/<int:nid>/view_all/', admin_view.admin_corporate_view_all),
+    path('user/corporate_user/<int:nid>/edit/', admin_view.admin_corporate_edit),
+    path('user/corporate_user/<int:nid>/delete/', admin_view.admin_corporate_delete),
 
-    path('admin/corporate_user/', views.admin_corporate),
-    path('admin/corporate_user/add/', views.admin_corporate_add),
-    path('admin/corporate_user/<int:nid>/view_all/', views.admin_corporate_view_all),
-    path('admin/corporate_user/<int:nid>/edit/', views.admin_corporate_edit),
-    path('admin/corporate_user/<int:nid>/delete/', views.admin_corporate_delete),
+    # vehicle
+    path('vehicle/individual_car/', car_view.car_individual),
+    path('vehicle/individual_car/<int:nid>/view_all/', car_view.car_individual_view_all),
+    path('vehicle/individual_car/add/', car_view.car_add_individual),
+    path('vehicle/individual_car/<int:nid>/edit/', car_view.car_individual_edit),
+    path('vehicle/individual_car/<int:nid>/delete/', car_view.car_individual_delete)
 ]

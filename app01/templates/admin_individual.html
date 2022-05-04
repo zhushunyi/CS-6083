@@ -3,7 +3,7 @@
 {% block content %}
     <div class="container">
         <div style="margin-bottom: 10px">
-            <a class="btn btn-success" href="/admin/individual_user/add">
+            <a class="btn btn-success" href="/user/individual_user/add">
                 <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                 Add One
             </a>
@@ -44,9 +44,9 @@
                         <td>{{ obj.phone }}</td>
                         <td>{{ obj.email }}</td>
                         <td>
-                            <a class="btn btn-primary btn-xs" href="/admin/individual_user/{{ obj.id }}/view_all/">View All</a>
-                            <a class="btn btn-primary btn-xs" href="/admin/individual_user/{{ obj.id }}/edit/">Edit</a>
-                            <a class="btn btn-danger btn-xs" href="/admin/individual_user/{{ obj.id }}/delete/">Delete</a>
+                            <a class="btn btn-primary btn-xs" href="/user/individual_user/{{ obj.id }}/view_all/">View All</a>
+                            <a class="btn btn-primary btn-xs" href="/user/individual_user/{{ obj.id }}/edit/">Edit</a>
+                            <a class="btn btn-danger btn-xs" href="/user/individual_user/{{ obj.id }}/delete/">Delete</a>
                         </td>
                     </tr>
                 {% endfor %}

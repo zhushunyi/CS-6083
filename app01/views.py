@@ -41,7 +41,7 @@ def admin_individual_edit(request, nid):
     form = AdminIndividualEdit(data=request.POST, instance=row_object)
     if form.is_valid():
         form.save()
-        return redirect('/admin/individual_user/')
+        return redirect('/user/individual_user/')
     return render(request, 'admin_edit.html', {'form': form})
 
 
@@ -52,13 +52,13 @@ def admin_add_individual(request):
     form = AdminIndividualAdd(data=request.POST)
     if form.is_valid():
         form.save()
-        return redirect('/admin/individual_user/')
+        return redirect('/user/individual_user/')
     return render(request, 'admin_add_individual.html', {'form': form})
 
 
 def admin_individual_delete(request, nid):
     models.IndividualInfo.objects.filter(id=nid).delete()
-    return redirect('/admin/individual_user/')
+    return redirect('/user/individual_user/')
 
 
 def admin_corporate(request):
@@ -78,7 +78,7 @@ def admin_corporate_add(request):
     form = AdminCorporateAdd(data=request.POST)
     if form.is_valid():
         form.save()
-        return redirect('/admin/corporate_user/')
+        return redirect('/user/corporate_user/')
     return render(request, 'admin_add_corporate.html', {'form': form})
 
 
@@ -99,10 +99,11 @@ def admin_corporate_edit(request, nid):
     form = AdminCorporateEdit(data=request.POST, instance=row_object)
     if form.is_valid():
         form.save()
-        return redirect('/admin/corporate_user/')
+        return redirect('/user/corporate_user/')
     return render(request, 'admin_corporate_edit.html', {'form': form})
 
 
 def admin_corporate_delete(request, nid):
     models.CorporationUser.objects.filter(id=nid).delete()
-    return redirect('/admin/corporate_user/')
+    return redirect('/user/corporate_user/')
+  
