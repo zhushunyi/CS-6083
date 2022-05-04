@@ -137,3 +137,78 @@ class AdminIndividualAdd(BootStrapModelForm):
         if exists:
             raise ValidationError("Email Address Already Exists")
         return mail
+
+
+class AdminCorporateAdd(BootStrapModelForm):
+    rate = forms.DecimalField(min_value=0, max_value=1, label="rate")
+
+    class Meta:
+        model = models.CorporationUser
+        fields = [
+            "street", "city", "zipcode", "email", "phone", "employ_id", "corporation_name", "rate"]
+
+    def clean_email(self):
+        mail = self.cleaned_data["email"]
+        exists = models.CorporationUser.objects.filter(email=mail).exists()
+        if exists:
+            raise ValidationError("Email Address Already Exists")
+        return mail
+
+    def clean_id(self):
+        eid = self.cleaned_data["employ_id"]
+        exists = models.CorporationUser.objects.filter(employ_id=id).exists()
+        if exists:
+            raise ValidationError("Employ id Address Already Exists")
+        return eid
+
+    def clean_phone(self):
+        mobile = self.cleaned_data["phone"]
+        if len(mobile) < 9:
+            raise ValidationError("Wrong Format")
+        exists = models.CorporationUser.objects.filter(phone=mobile).exists()
+        if exists:
+            raise ValidationError("Phone Number Already Exists")
+        return mobile
+
+
+class AdminCorporateViewAll(BootStrapModelForm):
+    street = forms.CharField(disabled=True, label="Street")
+    city = forms.CharField(disabled=True, label="City")
+    zipcode = forms.CharField(disabled=True, label="Zipcode")
+    email = forms.CharField(disabled=True, label="Email")
+    phone = forms.CharField(disabled=True, label="Phone")
+    rate = forms.CharField(disabled=True, label="Coupon Rate")
+    corporation_name = forms.CharField(disabled=True, label="Corporation ID")
+    employ_id = forms.CharField(disabled=True, label="Employ ID")
+
+    class Meta:
+        model = models.CorporationUser
+        fields = [
+            "street", "city", "zipcode", "email", "phone", "employ_id", "corporation_name", "rate"]
+
+
+class AdminCorporateEdit(BootStrapModelForm):
+    rate = forms.DecimalField(min_value=0, max_value=1, label="rate")
+    employ_id = forms.CharField(disabled=True, label="Employ ID")
+    corporation_name = forms.CharField(disabled=True, label="Corporation ID")
+
+    class Meta:
+        model = models.CorporationUser
+        fields = [
+            "street", "city", "zipcode", "email", "phone", "employ_id", "corporation_name", "rate"]
+
+    def clean_email(self):
+        mail = self.cleaned_data["email"]
+        exists = models.CorporationUser.objects.filter(email=mail).exists()
+        if exists:
+            raise ValidationError("Email Address Already Exists")
+        return mail
+
+    def clean_phone(self):
+        mobile = self.cleaned_data["phone"]
+        if len(mobile) < 9:
+            raise ValidationError("Wrong Format")
+        exists = models.CorporationUser.objects.filter(phone=mobile).exists()
+        if exists:
+            raise ValidationError("Phone Number Already Exists")
+        return mobile

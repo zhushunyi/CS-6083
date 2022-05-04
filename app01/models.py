@@ -50,3 +50,6 @@ class CorporationUser(models.Model):
     rate = models.DecimalField(verbose_name="Coupon Rate", max_digits=10, decimal_places=2, default=0)
 
 
+class Admin(models.Model):
+    username = models.CharField(verbose_name="user name", max_length=32)
+    password = models.CharField(verbose_name="password", max_length=64)

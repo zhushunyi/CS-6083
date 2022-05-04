@@ -30,6 +30,13 @@ urlpatterns = [
     path('user/individual_user/<int:nid>/edit/', admin_view.admin_individual_edit),
     path('user/individual_user/add/', admin_view.admin_add_individual),
     path('user/individual_user/<int:nid>/delete/', admin_view.admin_individual_delete),
+  
+    # corp user
+    path('user/corporate_user/', admin_view.admin_corporate),
+    path('user/corporate_user/add/', admin_view.admin_corporate_add),
+    path('user/corporate_user/<int:nid>/view_all/', admin_view.admin_corporate_view_all),
+    path('user/corporate_user/<int:nid>/edit/', admin_view.admin_corporate_edit),
+    path('user/corporate_user/<int:nid>/delete/', admin_view.admin_corporate_delete),
 
     # vehicle
     path('vehicle/individual_car/', car_view.car_individual),
