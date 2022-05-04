@@ -16,15 +16,24 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from app01 import views
+from app01 import views as admin_view
+from vehicle import views as car_view
 
+print('admin urls', admin.site.urls)
 urlpatterns = [
-    # path('admin/', admin.site.urls),
-    path('index/', views.index),
-    path('layout/', views.layout),
-    path('admin/individual_user/', views.admin_individual),
-    path('admin/individual_user/<int:nid>/view_all/', views.admin_individual_view_all),
-    path('admin/individual_user/<int:nid>/edit/', views.admin_individual_edit),
-    path('admin/individual_user/add/', views.admin_add_individual),
-    path('admin/individual_user/<int:nid>/delete/', views.admin_individual_delete),
+    path('admin/', admin.site.urls),
+    path('index/', admin_view.index),
+    path('layout/', admin_view.layout),
+
+    # admin
+    path('user/individual_user/', admin_view.admin_individual),
+    path('user/individual_user/<int:nid>/view_all/', admin_view.admin_individual_view_all),
+    path('user/individual_user/<int:nid>/edit/', admin_view.admin_individual_edit),
+    path('user/individual_user/add/', admin_view.admin_add_individual),
+    path('user/individual_user/<int:nid>/delete/', admin_view.admin_individual_delete),
+
+    # vehicle
+    path('vehicle/individual_car/', car_view.car_individual),
+    path('vehicle/individual_car/<int:nid>/view_all/', car_view.car_individual_view_all),
+    path('vehicle/individual_car/add/', car_view.car_add_individual),
 ]
