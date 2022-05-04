@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'app01.apps.App01Config'
+    'app01.apps.App01Config',
+    'vehicle.apps.VehicleConfig'
 ]
 
 MIDDLEWARE = [
@@ -80,7 +81,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'p2',  # 数据库名字
         'USER': 'root',
-        'PASSWORD': 'admin',
+        'PASSWORD': '12345678',
         'HOST': '127.0.0.1',  # 那台机器安装了MySQL
         'PORT': 3306,
     }
