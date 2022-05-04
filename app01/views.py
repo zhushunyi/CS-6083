@@ -40,7 +40,7 @@ def admin_individual_edit(request, nid):
     form = AdminIndividualEdit(data=request.POST, instance=row_object)
     if form.is_valid():
         form.save()
-        return redirect('/admin/individual_user/')
+        return redirect('/user/individual_user/')
     return render(request, 'admin_edit.html', {'form': form})
 
 
@@ -51,10 +51,10 @@ def admin_add_individual(request):
     form = AdminIndividualAdd(data=request.POST)
     if form.is_valid():
         form.save()
-        return redirect('/admin/individual_user/')
+        return redirect('/user/individual_user/')
     return render(request, 'admin_add_individual.html', {'form': form})
 
 
-def admin_individual_delete(request,nid):
+def admin_individual_delete(request, nid):
     models.IndividualInfo.objects.filter(id=nid).delete()
-    return redirect('/admin/individual_user/')
+    return redirect('/user/individual_user/')
