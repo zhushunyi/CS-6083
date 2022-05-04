@@ -9,13 +9,17 @@ from .models import VehicleClass
 class OfficeAdmin(admin.ModelAdmin):
     # prepopulated_fields = {'slug': ('street', 'city', 'zipcode', 'phone')}
     # list_display = (('street', 'city', 'zipcode', 'phone'), 'slug')
-    fields = ['street', 'city', 'zipcode', 'phone']
+    prepopulated_fields = {'slug': ('street',)}
+    list_display = ('street', 'slug')
+    # fields = ['street', 'city', 'zipcode', 'phone']
 
 
 class ClassAdmin(admin.ModelAdmin):
     # prepopulated_fields = {'slug': ('class_type', 'daily_rate', 'extra_rate')}
     # list_display = (('class_type', 'daily_rate', 'extra_rate'), 'slug')
-    fields = ['class_type', 'daily_rate', 'extra_rate']
+    prepopulated_fields = {'slug': ('class_type',)}
+    # fields = ['class_type', 'daily_rate', 'extra_rate']
+    list_display = ('class_type', 'slug')
 
 
 admin.site.register(OfficeInfo, OfficeAdmin)

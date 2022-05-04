@@ -4,7 +4,7 @@ Project 2
 1. python manage.py makemigrations
 2. python manage.py migrate
 3. python manage.py startapp xxx (to create a new app)
-4. superuser: username: root, password: 12345678
+4. python manage.py createsuperuser // username: root, password: 12345678
 
 
 ### Tips

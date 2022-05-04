@@ -9,7 +9,7 @@ class VehicleInfoFormViewAll(BootStrapModelForm):
     ID = forms.CharField(disabled=True, label="ID")
     Make = forms.IntegerField(disabled=True, label="Make")
     Model = forms.CharField(disabled=True, label="Model")
-    MakeYear = forms.DateField(disabled=True, label="Make Date")
+    MakeYear = forms.DateField(disabled=True, label="Made Year")
     VehicleIdentificationNumber = forms.CharField(disabled=True, label="Vehicle_Identification_Number")
     LicensePlateNumber = forms.CharField(disabled=True, label="License Plate Number")
 
