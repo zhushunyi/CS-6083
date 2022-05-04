@@ -19,7 +19,6 @@ from django.urls import path
 from app01 import views as admin_view
 from vehicle import views as car_view
 
-print('admin urls', admin.site.urls)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('index/', admin_view.index),
@@ -36,4 +35,6 @@ urlpatterns = [
     path('vehicle/individual_car/', car_view.car_individual),
     path('vehicle/individual_car/<int:nid>/view_all/', car_view.car_individual_view_all),
     path('vehicle/individual_car/add/', car_view.car_add_individual),
+    path('vehicle/individual_car/<int:nid>/edit/', car_view.car_individual_edit),
+    path('vehicle/individual_car/<int:nid>/delete/', car_view.car_individual_delete)
 ]

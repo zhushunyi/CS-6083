@@ -43,3 +43,17 @@ class CarIndividualAdd(BootStrapModelForm):
             "office_info",
         ]
 
+
+class CarIndividualEdit(BootStrapModelForm):
+    Model = forms.CharField(disabled=True, label="Model")
+    Make = forms.IntegerField(disabled=True, label="Make")
+    MakeYear = forms.DateField(disabled=True, label="Made Year")
+
+    class Meta:
+        model = models.VehicleInfo
+        fields = [
+            "VIN",
+            "LPN",
+            "vehicle_class",
+            "office_info",
+        ]
