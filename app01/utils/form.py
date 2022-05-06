@@ -200,7 +200,7 @@ class AdminCorporateEdit(BootStrapModelForm):
 
     def clean_email(self):
         mail = self.cleaned_data["email"]
-        exists = models.CorporationUser.objects.exclude(self.instance.pk).filter(email=mail).exists()
+        exists = models.CorporationUser.objects.filter(email=mail).exists()
         if exists:
             raise ValidationError("Email Address Already Exists")
         return mail
@@ -209,7 +209,8 @@ class AdminCorporateEdit(BootStrapModelForm):
         mobile = self.cleaned_data["phone"]
         if len(mobile) < 9:
             raise ValidationError("Wrong Format")
-        exists = models.CorporationUser.objects.exclude(self.instance.pk).filter(phone=mobile).exists()
+        # exists = models.CorporationUser.objects.exclude(self.instance.pk).filter(phone=mobile).exists()
+        exists = models.CorporationUser.objects.filter(phone=mobile).exists()
         if exists:
             raise ValidationError("Phone Number Already Exists")
         return mobile
