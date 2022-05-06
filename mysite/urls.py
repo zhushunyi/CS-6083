@@ -38,6 +38,19 @@ urlpatterns = [
     path('user/corporate_user/<int:nid>/edit/', admin_view.admin_corporate_edit),
     path('user/corporate_user/<int:nid>/delete/', admin_view.admin_corporate_delete),
 
+    # corporation users
+    path('user/corporate_user/', admin_view.admin_corporate),
+    path('user/corporate_user/add/', admin_view.admin_corporate_add),
+    path('user/corporate_user/<int:nid>/view_all/', admin_view.admin_corporate_view_all),
+    path('user/corporate_user/<int:nid>/edit/', admin_view.admin_corporate_edit),
+    path('user/corporate_user/<int:nid>/delete/', admin_view.admin_corporate_delete),
+
+    # user login related
+    path('user/add/', admin_view.admin_add),
+    path('user/login/', admin_view.admin_login),
+    path('user/logout/', admin_view.admin_logout),
+    path('image/code/', admin_view.image_code),
+
     # vehicle
     path('vehicle/individual_car/', car_view.car_individual),
     path('vehicle/individual_car/<int:nid>/view_all/', car_view.car_individual_view_all),

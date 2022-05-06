@@ -2,7 +2,8 @@ from app01 import models
 from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
 from django import forms
-from app01.utils.bootstrap import BootStrapModelForm
+from app01.utils.bootstrap import BootStrapModelForm, BootStrapForm
+from app01.utils.encrypt import md5
 
 '''class UserModelForm(BootStrapModelForm):
     name = forms.CharField(
@@ -208,7 +209,64 @@ class AdminCorporateEdit(BootStrapModelForm):
         mobile = self.cleaned_data["phone"]
         if len(mobile) < 9:
             raise ValidationError("Wrong Format")
+        # exists = models.CorporationUser.objects.exclude(self.instance.pk).filter(phone=mobile).exists()
         exists = models.CorporationUser.objects.filter(phone=mobile).exists()
         if exists:
             raise ValidationError("Phone Number Already Exists")
         return mobile
+
+
+class AdminAdd(BootStrapModelForm):
+    confirm_password = forms.CharField(
+        label="Confirm the password",
+        widget=forms.PasswordInput
+    )
+
+    class Meta:
+        model = models.Admin
+        fields = ["username", "password", "confirm_password"]
+        widgets = {
+            "password": forms.PasswordInput
+        }
+
+    def clean_username(self):
+        uid = self.cleaned_data["username"]
+        exists = models.Admin.objects.filter(username=uid).exists()
+        if exists:
+            raise ValidationError("Username Already Exists")
+        return uid
+
+    def clean_password(self):
+        pwd = self.cleaned_data.get("password")
+        return md5(pwd)
+
+    def clean_confirm_password(self):
+        pwd = self.cleaned_data.get("password")
+        confirm = md5(self.cleaned_data.get("confirm_password"))
+        if confirm != pwd:
+            raise ValidationError("Password Does Not Match")
+        return confirm
+
+
+class AdminLogin(BootStrapForm):
+    username = forms.CharField(
+        label="username",
+        widget=forms.TextInput,
+        required=True
+    )
+
+    password = forms.CharField(
+        label="password",
+        widget=forms.PasswordInput(render_value=True),
+        required=True
+    )
+
+    code = forms.CharField(
+        label="CAPTCHA",
+        widget=forms.TextInput,
+        required=True
+    )
+
+    def clean_password(self):
+        pwd = self.cleaned_data.get("password")
+        return md5(pwd)
