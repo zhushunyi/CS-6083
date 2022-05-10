@@ -286,3 +286,19 @@ def admin_order_add(request):
         form.save()
         return redirect('/admin/order/')
     return render(request, 'admin_order_add.html', {'form': form})
+
+
+def admin_invoice(request):
+    data_dict = {}
+    search_data = request.GET.get('q', "")
+    if search_data:
+        data_dict["id"] = search_data
+
+    queryset = models.Invoice.objects.filter(**data_dict)
+    page_object = Pagination(request, queryset, page_size=5)
+    context = {
+        "queryset": page_object.page_queryset,
+        "page_string": page_object.html(),
+    }
+    return render(request, 'admin_invoice.html', context)
+

@@ -55,6 +55,8 @@ urlpatterns = [
     path('admin/order/', views.admin_order),
     path('admin/order/add/', views.admin_order_add),
 
+    path('admin/invoice/', views.admin_invoice),
+
     path('user/individual/', views.individual),
 
 ]

@@ -3,7 +3,7 @@
 {% block content %}
     <div class="container">
         <div style="margin-bottom: 10px">
-            <a class="btn btn-success" href="/admin/order/add/">
+            <a class="btn btn-success" href="/admin/invoice/add/">
                 <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                 Add One
             </a>
@@ -36,15 +36,9 @@
             <table class="table table-bordered">
                 <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
-                    <th>Start Point</th>
-                    <th>End Point</th>
-                    <th>User ID</th>
-                    <th>Vehicle ID</th>
-                    <th>Distance</th>
-                    <th>Price</th>
+                    <th>Invoice ID</th>
+                    <th>Invoice Date</th>
+                    <th>Invoice Amount</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -52,14 +46,8 @@
                 {% for obj in queryset %}
                     <tr>
                         <th>{{ obj.id }}</th>
-                        <td>{{ obj.StartDate }}</td>
-                        <td>{{ obj.EndDate }}</td>
-                        <td>{{ obj.get_StartPoint_display }}</td>
-                        <td>{{ obj.get_EndPoint_display}}</td>
-                        <td>{{ obj.UserId.id }}</td>
-                        <td>{{ obj.VehicleId.id}}</td>
-                        <td>{{ obj.distance }}</td>
-                        <td>{{ obj.price }}</td>
+                        <td>{{ obj.InvoiceDate }}</td>
+                        <td>{{ obj.InvoiceAmount }}</td>
                         <td>
                             <a class="btn btn-primary btn-xs" href="/admin/office/{{ obj.id }}/edit/">Edit</a>
                             <a class="btn btn-danger btn-xs" href="/admin/office/{{ obj.id }}/delete/">Delete</a>

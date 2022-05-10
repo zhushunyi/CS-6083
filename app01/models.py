@@ -3,6 +3,7 @@ from django.db import models
 from datetime import datetime
 from random import random, randint
 
+
 # Create your models here.
 # for database
 
@@ -63,7 +64,7 @@ class Admin(models.Model):
 class Office(models.Model):
     name = models.CharField(verbose_name="office name", max_length=64)
     street = models.CharField(verbose_name="street", max_length=64)
-    city = models.CharField(verbose_name="city",max_length=32)
+    city = models.CharField(verbose_name="city", max_length=32)
     zipcode = models.CharField(verbose_name="zipcode", max_length=10)
     phone = models.CharField(verbose_name="phone number", max_length=10)
 
@@ -123,7 +124,7 @@ class Order(models.Model):
     UserId = models.ForeignKey(to="IndividualInfo", to_field="id", on_delete=models.CASCADE)
     VehicleId = models.ForeignKey(to="Vehicle", to_field="id", on_delete=models.CASCADE)
     distance = models.IntegerField(verbose_name="Distance")
-    price = models.DecimalField(verbose_name="Price", max_digits=10, decimal_places=2, default=0)
+    price = models.DecimalField(verbose_name="Price", max_digits=10, decimal_places=2)
 
     def save(self, *args, **kwargs):
         self.distance = abs(500 * (self.EndPoint - self.StartPoint))
@@ -144,3 +145,14 @@ class Order(models.Model):
         self.price = self.price * (1 - coupon_rate)
         super(Order, self).save(*args, **kwargs)
 
+
+class Invoice(models.Model):
+    InvoiceDate = models.DateField(verbose_name="Invoice Date")
+    InvoiceAmount = models.DecimalField(verbose_name="Invoice Amount", max_digits=10, decimal_places=2)
+    OrderId = models.ForeignKey(to="Order", to_field="id", on_delete=models.CASCADE)
+
+    def save(self, *args, **kwargs):
+        self.InvoiceDate = datetime.today()
+        oid = self.OrderId
+        self.InvoiceAmount = oid.price
+        super(Invoice, self).save(*args, **kwargs)
