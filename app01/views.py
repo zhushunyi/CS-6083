@@ -3,7 +3,7 @@ from app01 import models
 from app01.utils.pagination import Pagination
 from app01.utils.form import AdminIndividualFormViewAll, AdminIndividualEdit, AdminIndividualAdd, AdminCorporateAdd, \
     AdminCorporateViewAll, AdminCorporateEdit, AdminAdd, AdminLogin, OfficeAdd, OfficeEdit, VehicleAdd, VehicleEdit, \
-    OrderAdd, InvoiceAdd
+    OrderAdd, InvoiceAdd, PaymentAdd
 
 from app01.utils.code import check_code
 from io import BytesIO
@@ -333,3 +333,15 @@ def admin_payment(request):
         "page_string": page_object.html(),
     }
     return render(request, 'admin_payment.html', context)
+
+
+def admin_payment_add(request):
+    if request.method == 'GET':
+        form = PaymentAdd()
+        return render(request, 'admin_payment_add.html', {'form': form})
+
+    form = PaymentAdd(data=request.POST)
+    if form.is_valid():
+        form.save()
+        return redirect('/admin/payment/')
+    return render(request, 'admin_payment_add.html', {'form': form})

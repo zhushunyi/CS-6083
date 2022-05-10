@@ -380,3 +380,21 @@ class InvoiceAdd(BootStrapModelForm):
         if exists:
             raise ValidationError("Already has an invoice for this order")
         return oid
+
+
+class PaymentAdd(BootStrapModelForm):
+    class Meta:
+        model = models.Payment
+        fields = ["InvoiceId", "PaymentMethod", "CardNum", "PaymentAmount"]
+
+    def clean_PaymentAmount(self):
+        # print(self.Meta.model.InvoiceId)
+        amount = self.cleaned_data["PaymentAmount"]
+        iid = self.cleaned_data["InvoiceId"]
+        # print(iid.id)
+        temp = models.Invoice.objects.get(id=iid.id)
+        cmp = temp.InvoiceAmount
+        # print(cmp)
+        if amount > cmp:
+            raise ValidationError("Payment amount greater than invoice amount")
+        return amount

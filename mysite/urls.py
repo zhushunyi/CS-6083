@@ -60,6 +60,7 @@ urlpatterns = [
     path('admin/invoice/<int:nid>/delete/', views.admin_invoice_delete),
 
     path('admin/payment/', views.admin_payment),
+    path('admin/payment/add/', views.admin_payment_add),
 
     path('user/individual/', views.individual),
 
