@@ -64,8 +64,8 @@ urlpatterns = [
     path('admin/payment/<int:nid>/delete/', views.admin_payment_delete),
 
     path('user/login/', views.user_login),
-    path('user/individual/', views.individual),
+    path('user/order/', views.individual),
     path('user/register/', views.user_register),
     path('user/logout/', views.user_logout),
-
+    path('user/invoice/', views.user_invoice),
 ]

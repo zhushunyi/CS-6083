@@ -258,7 +258,33 @@ def vehicle_delete(request, nid):
 
 
 def individual(request):
-    return render(request, 'individual.html')
+    data_dict = {}
+    search_data = request.GET.get('q', "")
+    if search_data:
+        data_dict["id"] = search_data
+
+    queryset = models.Order.objects.filter(**data_dict)
+    page_object = Pagination(request, queryset, page_size=5)
+    context = {
+        "queryset": page_object.page_queryset,
+        "page_string": page_object.html(),
+    }
+    return render(request, 'individual.html', context)
+
+
+def user_invoice(request):
+    data_dict = {}
+    search_data = request.GET.get('q', "")
+    if search_data:
+        data_dict["id"] = search_data
+
+    queryset = models.Invoice.objects.filter(**data_dict)
+    page_object = Pagination(request, queryset, page_size=5)
+    context = {
+        "queryset": page_object.page_queryset,
+        "page_string": page_object.html(),
+    }
+    return render(request, 'user_invoice.html', context)
 
 
 def admin_order(request):
@@ -373,7 +399,7 @@ def user_login(request):
             return render(request, 'individual_login.html', {'form': form})
         request.session["info"] = {'id': admin_object.id, 'name': admin_object.username}
         request.session.set_expiry(60 * 60 * 24 * 7)
-        return redirect("/user/individual/")
+        return redirect("/user/order/")
     return render(request, 'individual_login.html', {'form': form})
 
 
