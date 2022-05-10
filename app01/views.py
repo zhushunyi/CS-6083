@@ -287,6 +287,20 @@ def user_invoice(request):
     return render(request, 'user_invoice.html', context)
 
 
+def user_payment(request):
+    data_dict = {}
+    search_data = request.GET.get('q', "")
+    if search_data:
+        data_dict["id"] = search_data
+
+    queryset = models.Payment.objects.filter(**data_dict)
+    page_object = Pagination(request, queryset, page_size=5)
+    context = {
+        "queryset": page_object.page_queryset,
+        "page_string": page_object.html(),
+    }
+    return render(request, 'user_payment.html', context)
+
 def admin_order(request):
     data_dict = {}
     search_data = request.GET.get('q', "")
