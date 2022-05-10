@@ -61,7 +61,10 @@ urlpatterns = [
 
     path('admin/payment/', views.admin_payment),
     path('admin/payment/add/', views.admin_payment_add),
+    path('admin/payment/<int:nid>/delete/', views.admin_payment_delete),
 
+    path('user/login/', views.user_login),
     path('user/individual/', views.individual),
+    path('user/logout/', views.user_logout),
 
 ]

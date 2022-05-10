@@ -398,3 +398,27 @@ class PaymentAdd(BootStrapModelForm):
         if amount > cmp:
             raise ValidationError("Payment amount greater than invoice amount")
         return amount
+
+
+class UserLogin(BootStrapForm):
+    username = forms.CharField(
+        label="username",
+        widget=forms.TextInput,
+        required=True
+    )
+
+    password = forms.CharField(
+        label="password",
+        widget=forms.PasswordInput(render_value=True),
+        required=True
+    )
+
+    code = forms.CharField(
+        label="CAPTCHA",
+        widget=forms.TextInput,
+        required=True
+    )
+
+    def clean_password(self):
+        pwd = self.cleaned_data.get("password")
+        return pwd

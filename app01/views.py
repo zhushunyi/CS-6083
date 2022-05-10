@@ -3,7 +3,7 @@ from app01 import models
 from app01.utils.pagination import Pagination
 from app01.utils.form import AdminIndividualFormViewAll, AdminIndividualEdit, AdminIndividualAdd, AdminCorporateAdd, \
     AdminCorporateViewAll, AdminCorporateEdit, AdminAdd, AdminLogin, OfficeAdd, OfficeEdit, VehicleAdd, VehicleEdit, \
-    OrderAdd, InvoiceAdd, PaymentAdd
+    OrderAdd, InvoiceAdd, PaymentAdd, UserLogin
 
 from app01.utils.code import check_code
 from io import BytesIO
@@ -345,3 +345,38 @@ def admin_payment_add(request):
         form.save()
         return redirect('/admin/payment/')
     return render(request, 'admin_payment_add.html', {'form': form})
+
+
+def admin_payment_delete(request, nid):
+    models.Payment.objects.filter(id=nid).delete()
+    return redirect('/admin/payment/')
+
+
+def user_login(request):
+    if request.method == 'GET':
+        form = UserLogin()
+        return render(request, 'individual_login.html', {'form': form})
+    form = UserLogin(data=request.POST)
+
+    if form.is_valid():
+        user_input_code = form.cleaned_data.pop('code')
+        code = request.session.get('image_code', "")
+        if code.upper() != user_input_code.upper():
+            form.add_error("code", "Wrong Code")
+            return render(request, 'admin_login.html', {'form': form})
+
+        # print(form.cleaned_data['username'])
+        admin_object = models.IndividualInfo.objects.filter(username=form.cleaned_data['username']).first()
+        # print(admin_object)
+        if not admin_object:
+            form.add_error("password", "Wrong Username or Password")
+            return render(request, 'individual_login.html', {'form': form})
+        request.session["info"] = {'id': admin_object.id, 'name': admin_object.username}
+        request.session.set_expiry(60 * 60 * 24 * 7)
+        return redirect("/user/individual/")
+    return render(request, 'individual_login.html', {'form': form})
+
+
+def user_logout(request):
+    request.session.clear()
+    return redirect('/user/login/')
