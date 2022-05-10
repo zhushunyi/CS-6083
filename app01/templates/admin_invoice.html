@@ -49,8 +49,7 @@
                         <td>{{ obj.InvoiceDate }}</td>
                         <td>{{ obj.InvoiceAmount }}</td>
                         <td>
-                            <a class="btn btn-primary btn-xs" href="/admin/office/{{ obj.id }}/edit/">Edit</a>
-                            <a class="btn btn-danger btn-xs" href="/admin/office/{{ obj.id }}/delete/">Delete</a>
+                            <a class="btn btn-danger btn-xs" href="/admin/invoice/{{ obj.id }}/delete/">Delete</a>
                         </td>
                     </tr>
                 {% endfor %}

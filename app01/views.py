@@ -3,7 +3,7 @@ from app01 import models
 from app01.utils.pagination import Pagination
 from app01.utils.form import AdminIndividualFormViewAll, AdminIndividualEdit, AdminIndividualAdd, AdminCorporateAdd, \
     AdminCorporateViewAll, AdminCorporateEdit, AdminAdd, AdminLogin, OfficeAdd, OfficeEdit, VehicleAdd, VehicleEdit, \
-    OrderAdd
+    OrderAdd, InvoiceAdd
 
 from app01.utils.code import check_code
 from io import BytesIO
@@ -301,4 +301,21 @@ def admin_invoice(request):
         "page_string": page_object.html(),
     }
     return render(request, 'admin_invoice.html', context)
+
+
+def admin_invoice_add(request):
+    if request.method == 'GET':
+        form = InvoiceAdd()
+        return render(request, 'admin_invoice_add.html', {'form': form})
+
+    form = InvoiceAdd(data=request.POST)
+    if form.is_valid():
+        form.save()
+        return redirect('/admin/invoice/')
+    return render(request, 'admin_invoice_add.html', {'form': form})
+
+
+def admin_invoice_delete(request, nid):
+    models.Invoice.objects.filter(id=nid).delete()
+    return redirect('/admin/invoice/')
 

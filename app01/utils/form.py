@@ -367,3 +367,16 @@ class OrderAdd(BootStrapModelForm):
     class Meta:
         model = models.Order
         fields = ["StartDate", "EndDate", "StartPoint", "EndPoint", "UserId", "VehicleId"]
+
+
+class InvoiceAdd(BootStrapModelForm):
+    class Meta:
+        model = models.Invoice
+        fields = ["OrderId"]
+
+    def clean_OrderId(self):
+        oid = self.cleaned_data["OrderId"]
+        exists = models.Invoice.objects.filter(OrderId=oid).exists()
+        if exists:
+            raise ValidationError("Already has an invoice for this order")
+        return oid
