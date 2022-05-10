@@ -20,8 +20,8 @@ from app01 import views
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
-    path('index/', views.index),
-    path('layout/', views.layout),
+    # path('index/', views.index),
+    # path('layout/', views.layout),
     path('admin/individual_user/', views.admin_individual),
     path('admin/individual_user/<int:nid>/view_all/', views.admin_individual_view_all),
     path('admin/individual_user/<int:nid>/edit/', views.admin_individual_edit),
