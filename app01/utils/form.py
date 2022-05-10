@@ -361,3 +361,9 @@ class VehicleEdit(BootStrapModelForm):
         if exists:
             raise ValidationError("LPN Already Exists")
         return lid
+
+
+class OrderAdd(BootStrapModelForm):
+    class Meta:
+        model = models.Order
+        fields = ["StartDate", "EndDate", "StartPoint", "EndPoint", "UserId", "VehicleId"]

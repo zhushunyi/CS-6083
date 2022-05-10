@@ -53,7 +53,7 @@ urlpatterns = [
     path('admin/vehicle/<int:nid>/delete/', views.vehicle_delete),
 
     path('admin/order/', views.admin_order),
-
+    path('admin/order/add/', views.admin_order_add),
 
     path('user/individual/', views.individual),
 

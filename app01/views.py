@@ -2,7 +2,8 @@ from django.shortcuts import render, HttpResponse, redirect
 from app01 import models
 from app01.utils.pagination import Pagination
 from app01.utils.form import AdminIndividualFormViewAll, AdminIndividualEdit, AdminIndividualAdd, AdminCorporateAdd, \
-    AdminCorporateViewAll, AdminCorporateEdit, AdminAdd, AdminLogin, OfficeAdd, OfficeEdit, VehicleAdd, VehicleEdit
+    AdminCorporateViewAll, AdminCorporateEdit, AdminAdd, AdminLogin, OfficeAdd, OfficeEdit, VehicleAdd, VehicleEdit, \
+    OrderAdd
 
 from app01.utils.code import check_code
 from io import BytesIO
@@ -273,3 +274,15 @@ def admin_order(request):
         "page_string": page_object.html(),
     }
     return render(request, 'admin_order.html', context)
+
+
+def admin_order_add(request):
+    if request.method == 'GET':
+        form = OrderAdd()
+        return render(request, 'admin_order_add.html', {'form': form})
+
+    form = OrderAdd(data=request.POST)
+    if form.is_valid():
+        form.save()
+        return redirect('/admin/order/')
+    return render(request, 'admin_order_add.html', {'form': form})

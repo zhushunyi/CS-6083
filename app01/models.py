@@ -126,11 +126,13 @@ class Order(models.Model):
     price = models.DecimalField(verbose_name="Price", max_digits=10, decimal_places=2, default=0)
 
     def save(self, *args, **kwargs):
-        self.distance = 500 * (self.EndPoint - self.StartPoint)
+        self.distance = abs(500 * (self.EndPoint - self.StartPoint))
         delta = self.EndDate - self.StartDate
-        temp = Order.objects.get(id=self.id)
-        vid = temp.VehicleId
-        uid = temp.UserId
+        # temp = Order.objects.get(id=self.id)
+        # print(self.UserId)
+        # print(self.VehicleId)
+        vid = self.VehicleId
+        uid = self.UserId
         daily = vid.daily_rate
         extra = vid.extra_rate
         lim = vid.limit
@@ -139,5 +141,6 @@ class Order(models.Model):
             self.price = delta.days * daily + extra * (self.distance - lim * delta.days)
         else:
             self.price = delta.days * daily
+        self.price = self.price * (1 - coupon_rate)
         super(Order, self).save(*args, **kwargs)
 
