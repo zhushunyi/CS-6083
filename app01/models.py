@@ -156,3 +156,19 @@ class Invoice(models.Model):
         oid = self.OrderId
         self.InvoiceAmount = oid.price
         super(Invoice, self).save(*args, **kwargs)
+
+
+class Payment(models.Model):
+    PaymentDate = models.DateField(verbose_name="Payment Date")
+    Method_choice = (
+        (1, "credit"),
+        (2, "debit"),
+    )
+    PaymentMethod = models.SmallIntegerField(verbose_name="Payment Method", choices=Method_choice)
+    CardNum = models.CharField(verbose_name="Card Number", max_length=10)
+    PaymentAmount = models.DecimalField(verbose_name="Payment Amount", max_digits=10, decimal_places=2)
+    InvoiceId = models.ForeignKey(to="Invoice", to_field="id", on_delete=models.CASCADE)
+
+    def save(self, *args, **kwargs):
+        self.PaymentDate = datetime.today()
+        super(Payment, self).save(*args, **kwargs)

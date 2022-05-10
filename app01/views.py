@@ -319,3 +319,17 @@ def admin_invoice_delete(request, nid):
     models.Invoice.objects.filter(id=nid).delete()
     return redirect('/admin/invoice/')
 
+
+def admin_payment(request):
+    data_dict = {}
+    search_data = request.GET.get('q', "")
+    if search_data:
+        data_dict["id"] = search_data
+
+    queryset = models.Payment.objects.filter(**data_dict)
+    page_object = Pagination(request, queryset, page_size=5)
+    context = {
+        "queryset": page_object.page_queryset,
+        "page_string": page_object.html(),
+    }
+    return render(request, 'admin_payment.html', context)
