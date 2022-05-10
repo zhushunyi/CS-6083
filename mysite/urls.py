@@ -16,45 +16,45 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from app01 import views as admin_view
-from vehicle import views as car_view
+from app01 import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('index/', admin_view.index),
-    path('layout/', admin_view.layout),
+    # path('admin/', admin.site.urls),
+    # path('index/', views.index),
+    # path('layout/', views.layout),
+    path('admin/individual_user/', views.admin_individual),
+    path('admin/individual_user/<int:nid>/view_all/', views.admin_individual_view_all),
+    path('admin/individual_user/<int:nid>/edit/', views.admin_individual_edit),
+    path('admin/individual_user/add/', views.admin_add_individual),
+    path('admin/individual_user/<int:nid>/delete/', views.admin_individual_delete),
 
-    # admin
-    path('user/individual_user/', admin_view.admin_individual),
-    path('user/individual_user/<int:nid>/view_all/', admin_view.admin_individual_view_all),
-    path('user/individual_user/<int:nid>/edit/', admin_view.admin_individual_edit),
-    path('user/individual_user/add/', admin_view.admin_add_individual),
-    path('user/individual_user/<int:nid>/delete/', admin_view.admin_individual_delete),
-  
-    # corp user
-    path('user/corporate_user/', admin_view.admin_corporate),
-    path('user/corporate_user/add/', admin_view.admin_corporate_add),
-    path('user/corporate_user/<int:nid>/view_all/', admin_view.admin_corporate_view_all),
-    path('user/corporate_user/<int:nid>/edit/', admin_view.admin_corporate_edit),
-    path('user/corporate_user/<int:nid>/delete/', admin_view.admin_corporate_delete),
 
-    # corporation users
-    path('user/corporate_user/', admin_view.admin_corporate),
-    path('user/corporate_user/add/', admin_view.admin_corporate_add),
-    path('user/corporate_user/<int:nid>/view_all/', admin_view.admin_corporate_view_all),
-    path('user/corporate_user/<int:nid>/edit/', admin_view.admin_corporate_edit),
-    path('user/corporate_user/<int:nid>/delete/', admin_view.admin_corporate_delete),
+    path('admin/corporate_user/', views.admin_corporate),
+    path('admin/corporate_user/add/', views.admin_corporate_add),
+    path('admin/corporate_user/<int:nid>/view_all/', views.admin_corporate_view_all),
+    path('admin/corporate_user/<int:nid>/edit/', views.admin_corporate_edit),
+    path('admin/corporate_user/<int:nid>/delete/', views.admin_corporate_delete),
 
-    # user login related
-    path('user/add/', admin_view.admin_add),
-    path('user/login/', admin_view.admin_login),
-    path('user/logout/', admin_view.admin_logout),
-    path('image/code/', admin_view.image_code),
+    path('image/code/', views.image_code),
 
-    # vehicle
-    path('vehicle/individual_car/', car_view.car_individual),
-    path('vehicle/individual_car/<int:nid>/view_all/', car_view.car_individual_view_all),
-    path('vehicle/individual_car/add/', car_view.car_add_individual),
-    path('vehicle/individual_car/<int:nid>/edit/', car_view.car_individual_edit),
-    path('vehicle/individual_car/<int:nid>/delete/', car_view.car_individual_delete)
+
+    path('admin/add/', views.admin_add),
+    path('admin/login/', views.admin_login),
+    path('admin/logout/', views.admin_logout),
+
+    path('admin/office/', views.office_show),
+    path('admin/office/add/', views.office_add),
+    path('admin/office/<int:nid>/edit/', views.office_edit),
+    path('admin/office/<int:nid>/delete/', views.office_delete),
+
+    path('admin/vehicle/', views.vehicle),
+    path('admin/vehicle/add/', views.vehicle_add),
+    path('admin/vehicle/<int:nid>/edit/', views.vehicle_edit),
+    path('admin/vehicle/<int:nid>/delete/', views.vehicle_delete),
+
+    path('admin/order/', views.admin_order),
+
+
+    path('user/individual/', views.individual),
+
 ]

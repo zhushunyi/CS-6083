@@ -9,7 +9,7 @@
     <div class="container">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title"> Edit Vehicle Info </h3>
+                <h3 class="panel-title"> Edit Vehicle Information </h3>
             </div>
             <div class="panel-body">
                 <form method="post" novalidate>
@@ -30,22 +30,22 @@
 {% endblock %}
 
 
-{#{% block js %}#}
-{#    <script src="{% static 'plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' %}"></script>#}
-{#    <script src="{% static 'plugins/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js' %}"></script>#}
-{#    <script>#}
-{#        $(function () {#}
-{#            $('#id_StartDate').datepicker({#}
-{#                format: 'yyyy-mm-dd',#}
-{#                endDate: '0',#}
-{#                autoclose: true#}
-{#            });#}
-{##}
-{#            $('#id_EndDate').datepicker({#}
-{#                format: 'yyyy-mm-dd',#}
-{#                startDate: '0',#}
-{#                autoclose: true#}
-{#            });#}
-{#        })#}
-{#    </script>#}
-{#{% endblock %}#}
+{% block js %}
+    <script src="{% static 'plugins/bootstrap-datepicker/js/bootstrap-datepicker.js' %}"></script>
+    <script src="{% static 'plugins/bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN.min.js' %}"></script>
+    <script>
+        $(function () {
+            $('#id_StartDate').datepicker({
+                format: 'yyyy-mm-dd',
+                endDate: '0',
+                autoclose: true
+            });
+
+            $('#id_EndDate').datepicker({
+                format: 'yyyy-mm-dd',
+                startDate: '0',
+                autoclose: true
+            });
+        })
+    </script>
+{% endblock %}

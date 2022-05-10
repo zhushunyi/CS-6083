@@ -5,7 +5,7 @@ from django.shortcuts import HttpResponse, redirect
 class AuthMiddleware(MiddlewareMixin):
 
     def process_request(self, request):
-        if request.path_info in ["/admin/login/", "/user/login/", "/image/code/", "/user/add/", "/user/individual/"]:
+        if request.path_info in ["/admin/login/", "/image/code/", "/admin/add/", "/user/individual/"]:
             return
 
         info_dict = request.session.get("info")
@@ -13,4 +13,4 @@ class AuthMiddleware(MiddlewareMixin):
         if info_dict:
             return
 
-        return redirect('/user/login/')
+        return redirect('/admin/login/')

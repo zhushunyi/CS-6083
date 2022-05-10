@@ -200,7 +200,7 @@ class AdminCorporateEdit(BootStrapModelForm):
 
     def clean_email(self):
         mail = self.cleaned_data["email"]
-        exists = models.CorporationUser.objects.filter(email=mail).exists()
+        exists = models.CorporationUser.objects.exclude(self.instance.pk).filter(email=mail).exists()
         if exists:
             raise ValidationError("Email Address Already Exists")
         return mail
@@ -209,8 +209,7 @@ class AdminCorporateEdit(BootStrapModelForm):
         mobile = self.cleaned_data["phone"]
         if len(mobile) < 9:
             raise ValidationError("Wrong Format")
-        # exists = models.CorporationUser.objects.exclude(self.instance.pk).filter(phone=mobile).exists()
-        exists = models.CorporationUser.objects.filter(phone=mobile).exists()
+        exists = models.CorporationUser.objects.exclude(self.instance.pk).filter(phone=mobile).exists()
         if exists:
             raise ValidationError("Phone Number Already Exists")
         return mobile
@@ -270,3 +269,95 @@ class AdminLogin(BootStrapForm):
     def clean_password(self):
         pwd = self.cleaned_data.get("password")
         return md5(pwd)
+
+
+class OfficeAdd(BootStrapModelForm):
+    class Meta:
+        model = models.Office
+        fields = ["name", "street", "city", "zipcode", "phone"]
+
+    def clean_name(self):
+        uname = self.cleaned_data["name"]
+        exists = models.Office.objects.filter(name=uname).exists()
+        if exists:
+            raise ValidationError("Office Name Already Exists")
+        return uname
+
+    def clean_phone(self):
+        number = self.cleaned_data["phone"]
+        exists = models.Office.objects.filter(phone=number).exists()
+        if exists:
+            raise ValidationError("Phone Number Already Exists")
+        return number
+
+
+class OfficeEdit(BootStrapModelForm):
+    class Meta:
+        model = models.Office
+        fields = ["name", "street", "city", "zipcode", "phone"]
+
+    def clean_name(self):
+        uname = self.cleaned_data["name"]
+        exists = models.Office.objects.exclude(id=self.instance.pk).filter(name=uname).exists()
+        if exists:
+            raise ValidationError("Office Name Already Exists")
+        return uname
+
+    def clean_phone(self):
+        number = self.cleaned_data["phone"]
+        exists = models.Office.objects.exclude(id=self.instance.pk).filter(phone=number).exists()
+        if exists:
+            raise ValidationError("Phone Number Already Exists")
+        return number
+
+
+class VehicleAdd(BootStrapModelForm):
+    daily_rate = forms.DecimalField(min_value=0, label="daily rate")
+    extra_rate = forms.DecimalField(min_value=0, label="extra rate")
+    limit = forms.DecimalField(min_value=0, label="limit")
+
+    class Meta:
+        model = models.Vehicle
+        fields = ["Vclass", "make", "year", "VIN",
+                  "LPN", "daily_rate", "extra_rate", "limit", "office"]
+
+    def clean_VIN(self):
+        vid = self.cleaned_data["VIN"]
+        print(vid)
+        exists = models.Vehicle.objects.filter(VIN=vid).exists()
+        if exists:
+            raise ValidationError("VIN Already Exists")
+        return vid
+
+    def clean_LPN(self):
+        lid = self.cleaned_data["LPN"]
+        exists = models.Vehicle.objects.filter(LPN=lid).exists()
+        if exists:
+            raise ValidationError("LPN Already Exists")
+        return lid
+
+
+class VehicleEdit(BootStrapModelForm):
+    daily_rate = forms.DecimalField(min_value=0, label="daily rate")
+    extra_rate = forms.DecimalField(min_value=0, label="extra rate")
+    limit = forms.DecimalField(min_value=0, label="limit")
+    year = forms.DateField(disabled=True, label="Year")
+
+    class Meta:
+        model = models.Vehicle
+        fields = ["Vclass", "make", "year", "VIN",
+                  "LPN", "daily_rate", "extra_rate", "limit"]
+
+    def clean_VIN(self):
+        vid = self.cleaned_data["VIN"]
+        exists = models.Vehicle.objects.exclude(id=self.instance.pk).filter(VIN=vid).exists()
+        if exists:
+            raise ValidationError("VIN Already Exists")
+        return vid
+
+    def clean_LPN(self):
+        lid = self.cleaned_data["LPN"]
+        exists = models.Vehicle.objects.exclude(id=self.instance.pk).filter(LPN=lid).exists()
+        if exists:
+            raise ValidationError("LPN Already Exists")
+        return lid

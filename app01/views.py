@@ -1,24 +1,24 @@
 from django.shortcuts import render, HttpResponse, redirect
 from app01 import models
 from app01.utils.pagination import Pagination
-from app01.utils.form import AdminIndividualFormViewAll, AdminIndividualEdit, AdminIndividualAdd, AdminAdd, AdminLogin, \
-    AdminCorporateViewAll, AdminCorporateEdit, AdminCorporateAdd
+from app01.utils.form import AdminIndividualFormViewAll, AdminIndividualEdit, AdminIndividualAdd, AdminCorporateAdd, \
+    AdminCorporateViewAll, AdminCorporateEdit, AdminAdd, AdminLogin, OfficeAdd, OfficeEdit, VehicleAdd, VehicleEdit
+
 from app01.utils.code import check_code
 from io import BytesIO
 
 
 # Create your views here.
 
-def index(request):
-    return HttpResponse("欢迎使用")
-
-
-def layout(request):
-    return render(request, 'layout.html')
-
 
 def admin_individual(request):
-    queryset = models.IndividualInfo.objects.all()
+    data_dict = {}
+    search_data = request.GET.get('q', "")
+    if search_data:
+        data_dict["id"] = search_data
+
+    queryset = models.IndividualInfo.objects.filter(**data_dict)
+
     page_object = Pagination(request, queryset, page_size=5)
     context = {
         "queryset": page_object.page_queryset,
@@ -43,7 +43,7 @@ def admin_individual_edit(request, nid):
     form = AdminIndividualEdit(data=request.POST, instance=row_object)
     if form.is_valid():
         form.save()
-        return redirect('/user/individual_user/')
+        return redirect('/admin/individual_user/')
     return render(request, 'admin_edit.html', {'form': form})
 
 
@@ -54,13 +54,13 @@ def admin_add_individual(request):
     form = AdminIndividualAdd(data=request.POST)
     if form.is_valid():
         form.save()
-        return redirect('/user/individual_user/')
+        return redirect('/admin/individual_user/')
     return render(request, 'admin_add_individual.html', {'form': form})
 
 
 def admin_individual_delete(request, nid):
     models.IndividualInfo.objects.filter(id=nid).delete()
-    return redirect('/user/individual_user/')
+    return redirect('/admin/individual_user/')
 
 
 def admin_corporate(request):
@@ -85,7 +85,7 @@ def admin_corporate_add(request):
     form = AdminCorporateAdd(data=request.POST)
     if form.is_valid():
         form.save()
-        return redirect('/user/corporate_user/')
+        return redirect('/admin/corporate_user/')
     return render(request, 'admin_add_corporate.html', {'form': form})
 
 
@@ -106,13 +106,13 @@ def admin_corporate_edit(request, nid):
     form = AdminCorporateEdit(data=request.POST, instance=row_object)
     if form.is_valid():
         form.save()
-        return redirect('/user/corporate_user/')
+        return redirect('/admin/corporate_user/')
     return render(request, 'admin_corporate_edit.html', {'form': form})
 
 
 def admin_corporate_delete(request, nid):
     models.CorporationUser.objects.filter(id=nid).delete()
-    return redirect('/user/corporate_user/')
+    return redirect('/admin/corporate_user/')
 
 
 def admin_add(request):
@@ -123,7 +123,7 @@ def admin_add(request):
     form = AdminAdd(data=request.POST)
     if form.is_valid():
         form.save()
-        return redirect('/user/login/')
+        return redirect('/admin/login/')
     return render(request, 'admin_add.html', {'form': form})
 
 
@@ -145,7 +145,7 @@ def admin_login(request):
             return render(request, 'admin_login.html', {'form': form})
         request.session["info"] = {'id': admin_object.id, 'name': admin_object.username}
         request.session.set_expiry(60 * 60 * 24 * 7)
-        return redirect("/user/individual_user/")
+        return redirect("/admin/individual_user/")
     return render(request, 'admin_login.html', {'form': form})
 
 
@@ -161,4 +161,115 @@ def image_code(request):
 
 def admin_logout(request):
     request.session.clear()
-    return redirect('/user/login/')
+    return redirect('/admin/login/')
+
+
+def office_show(request):
+    data_dict = {}
+    search_data = request.GET.get('q', "")
+    if search_data:
+        data_dict["id"] = search_data
+
+    queryset = models.Office.objects.filter(**data_dict)
+
+    page_object = Pagination(request, queryset, page_size=5)
+    context = {
+        "queryset": page_object.page_queryset,
+        "page_string": page_object.html(),
+    }
+    return render(request, 'admin_office.html', context)
+
+
+def office_add(request):
+    if request.method == 'GET':
+        form = OfficeAdd()
+        return render(request, 'office_add.html', {'form': form})
+
+    form = OfficeAdd(data=request.POST)
+    if form.is_valid():
+        form.save()
+        return redirect('/admin/office/')
+    return render(request, 'office_add.html', {'form': form})
+
+
+def office_edit(request, nid):
+    row_object = models.Office.objects.filter(id=nid).first()
+
+    # get the data from the database for edit
+    if request.method == 'GET':
+        form = OfficeEdit(instance=row_object)
+        return render(request, 'office_edit.html', {'form': form})
+    form = OfficeEdit(data=request.POST, instance=row_object)
+    if form.is_valid():
+        form.save()
+        return redirect('/admin/office/')
+    return render(request, 'office_edit.html', {'form': form})
+
+
+def office_delete(request, nid):
+    models.Office.objects.filter(id=nid).delete()
+    return redirect('/admin/office/')
+
+
+def vehicle(request):
+    data_dict = {}
+    search_data = request.GET.get('q', "")
+    if search_data:
+        data_dict["id"] = search_data
+
+    queryset = models.Vehicle.objects.filter(**data_dict)
+    page_object = Pagination(request, queryset, page_size=5)
+    context = {
+        "queryset": page_object.page_queryset,
+        "page_string": page_object.html(),
+    }
+    return render(request, 'admin_vehicle.html', context)
+
+
+def vehicle_add(request):
+    if request.method == 'GET':
+        form = VehicleAdd()
+        return render(request, 'vehicle_add.html', {'form': form})
+
+    form = VehicleAdd(data=request.POST)
+    if form.is_valid():
+        form.save()
+        return redirect('/admin/vehicle/')
+    return render(request, 'vehicle_add.html', {'form': form})
+
+
+def vehicle_edit(request, nid):
+    row_object = models.Vehicle.objects.filter(id=nid).first()
+
+    if request.method == 'GET':
+        form = VehicleEdit(instance=row_object)
+        return render(request, 'vehicle_edit.html', {'form': form})
+    form = VehicleEdit(data=request.POST, instance=row_object)
+    if form.is_valid():
+        form.save()
+        return redirect('/admin/vehicle/')
+    return render(request, 'vehicle_edit.html', {'form': form})
+
+
+def vehicle_delete(request, nid):
+    models.Vehicle.objects.filter(id=nid).delete()
+    return redirect('/admin/vehicle/')
+
+
+def individual(request):
+    return render(request, 'individual.html')
+
+
+def admin_order(request):
+    data_dict = {}
+    search_data = request.GET.get('q', "")
+    if search_data:
+        data_dict["id"] = search_data
+
+    queryset = models.Order.objects.filter(**data_dict)
+    page_object = Pagination(request, queryset, page_size=5)
+    context = {
+        "queryset": page_object.page_queryset,
+        "page_string": page_object.html(),
+    }
+    return render(request, 'admin_order.html', context)
