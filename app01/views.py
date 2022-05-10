@@ -3,7 +3,7 @@ from app01 import models
 from app01.utils.pagination import Pagination
 from app01.utils.form import AdminIndividualFormViewAll, AdminIndividualEdit, AdminIndividualAdd, AdminCorporateAdd, \
     AdminCorporateViewAll, AdminCorporateEdit, AdminAdd, AdminLogin, OfficeAdd, OfficeEdit, VehicleAdd, VehicleEdit, \
-    OrderAdd, InvoiceAdd, PaymentAdd, UserLogin
+    OrderAdd, InvoiceAdd, PaymentAdd, UserLogin, UserRegister
 
 from app01.utils.code import check_code
 from io import BytesIO
@@ -380,3 +380,18 @@ def user_login(request):
 def user_logout(request):
     request.session.clear()
     return redirect('/user/login/')
+
+
+def user_register(request):
+    if request.method == 'GET':
+        form = UserRegister()
+        return render(request, 'user_register.html', {'form': form})
+
+    form = UserRegister(data=request.POST)
+    print(form)
+    # print(form)
+    if form.is_valid():
+        form.save()
+        return redirect('/user/login/')
+    return render(request, 'user_register.html', {'form': form})
+

@@ -421,4 +421,56 @@ class UserLogin(BootStrapForm):
 
     def clean_password(self):
         pwd = self.cleaned_data.get("password")
-        return pwd
+        return md5(pwd)
+
+
+class UserRegister(BootStrapModelForm):
+    rate = forms.DecimalField(min_value=0, max_value=1, label="rate")
+    confirm_password = forms.CharField(
+        label="Confirm the password",
+        widget=forms.PasswordInput
+    )
+
+    class Meta:
+        model = models.IndividualInfo
+        fields = ["username", "password", "confirm_password", "FirstName", "MiddleName", "LastName", "street", "city",
+                  "zipcode", "email", "phone", "InsuranceCompany", "InsuranceNumber", "rate", "StartDate", "EndDate"]
+        widgets = {
+            "password": forms.PasswordInput
+        }
+
+    def clean_username(self):
+        uname = self.cleaned_data["username"]
+        exists = models.IndividualInfo.objects.filter(username=uname).exists()
+        if exists:
+            raise ValidationError("Username Already Exists")
+        return uname
+
+    def clean_phone(self):
+        mobile = self.cleaned_data["phone"]
+        if len(mobile) < 9:
+            raise ValidationError("Wrong Format")
+
+        exists = models.IndividualInfo.objects.filter(phone=mobile).exists()
+        if exists:
+            raise ValidationError("Phone Number Exists")
+        return mobile
+
+    def clean_email(self):
+        mail = self.cleaned_data["email"]
+        exists = models.IndividualInfo.objects.filter(email=mail).exists()
+        if exists:
+            raise ValidationError("Email Address Exists")
+        return mail
+
+    def clean_password(self):
+        pwd = self.cleaned_data.get("password")
+        return md5(pwd)
+
+    def clean_confirm_password(self):
+        pwd = self.cleaned_data.get("password")
+        confirm = md5(self.cleaned_data.get("confirm_password"))
+        if confirm != pwd:
+            raise ValidationError("Password Does Not Match")
+        return confirm
+
